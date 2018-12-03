@@ -1,20 +1,30 @@
-Documentation
-=============
+Unit tests, written with [QUnit](https://qunitjs.com), are used to
+expose bugs for squashing, prevent bugs from respawning, and suppress new
+bugs when adding new features and making changes.
 
-Project documentation is built using [Sphinx docs](http://sphinx-doc.org/), which uses [ReST](http://docutils.sourceforge.net/rst.html) for markup.  This allows the docs to cover a vast amount of topics without using a thousand-line README file.
+# Running the tests
 
-Sphinx docs is pip-installable via `pip install sphinx`.  Once installed, open a command line in the docs folder and run the following commands:
+The simplest way to run the tests is to open `tests/tests.html` in your browser.
+The test suites will automatically run themselves and present their results.
 
-```bash
-$ sudo pip install -r requirements.txt
-```
+To run the tests from the command line (after running jshint and jscs, which is
+recommended), install Grunt and run the `test` task from anywhere within the
+repo:
 
-This will install the requirements needed for the generating the docs. Afterwards you can run:
+    $ grunt test
 
-```bash
-$ make html
-```
+# Adding tests
 
-The docs will be generated, the output files will be placed in the `_build/html/` directory, and can be browsed (locally) with any browser.
+Tests go in js files in the `tests/suites/` directory tree. QUnit organizes
+tests into suites called "modules"; there is one module per js file.  If the
+tests you are adding do not fit into an existing module, create a new one at
+`tests/suites/<new module>.js`, where `<new module>` is a broad yet
+descriptive name for the suite.  If tests have many year-specific cases (ie,
+behave differently in leap years vs normal years, or have specific buggy
+behavior in a certain year), create the module in a new directory,
+`tests/suites/<new module>/<year>.js`, where `<new module>` is the decriptive
+name and `<year>` is the four-digit year the tests pertain to.
 
-The docs can also be found online at <http://bootstrap-datepicker.readthedocs.org/>.
+In order for new tests to be run, they must be imported into `tests/tests.html`.
+Find the script includes headed by the html comment `<!-- Test suites -->`, and
+add a new one to the list which includes the new js files.
